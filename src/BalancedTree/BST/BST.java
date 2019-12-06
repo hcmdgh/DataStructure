@@ -23,6 +23,15 @@ public class BST {
 
     private Node root = null;
 
+    // 计算结点node在以node为树根的子树中的排名
+    private int nodeRank(Node node) {
+        if (node.leftChild != null) {
+            return node.leftChild.cnt + 1;
+        } else {
+            return 1;
+        }
+    }
+
     // 插入结点
     public void insert(int val) {
         if (root == null) {
@@ -146,13 +155,37 @@ public class BST {
     // 获取val的排名
     // val的排名定义为比val小的数的个数+1
     public int rank(int val) {
-        return 0;
+        Node cur = root;
+        int _rank = 1;
+        while (cur != null) {
+            if (val <= cur.val) {
+                cur = cur.leftChild;
+            } else {
+                _rank += nodeRank(cur);
+                cur = cur.rightChild;
+            }
+        }
+        return _rank;
     }
 
+    // 获取排名为k的元素
     public int kth(int rk) {
-        return 0;
+        Node cur = root;
+        while (cur != null) {
+            int _rank = nodeRank(cur);
+            if (rk < _rank) {
+                cur = cur.leftChild;
+            } else if (rk > _rank) {
+                rk -= _rank;
+                cur = cur.rightChild;
+            } else {
+                return cur.val;
+            }
+        }
+        return -1;
     }
 
+    // 检测容器是否包含某个值
     public boolean contains(int val) {
         Node cur = root;
         while (cur != null) {
@@ -165,5 +198,13 @@ public class BST {
             }
         }
         return false;
+    }
+
+    public int lower(int val) {
+        return kth(rank(val) - 1);
+    }
+
+    public int upper(int val) {
+        return kth(rank(val + 1));
     }
 }

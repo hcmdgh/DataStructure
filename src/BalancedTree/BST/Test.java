@@ -1,14 +1,11 @@
 package BalancedTree.BST;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Random;
+import java.util.*;
 
 public class Test {
-    static final int ROUND = 10;  // 测试轮数
+    static final int ROUND = 200;  // 测试轮数
     static final int UPPER_BOUND = 200;  // 往容器中添加的元素的最大值
-    static final int MAX_SIZE = 1000;  // 当容器尺寸超过阈值时，结束测试
+    static final int MAX_SIZE = 500;  // 当容器尺寸超过阈值时，结束测试
     static final int QUERY_TIME = 10;  // 查询排名的次数
 
     List<Integer> list;
@@ -31,12 +28,13 @@ public class Test {
         ListIterator<Integer> iter = list.listIterator();
         int rank = 1;
         while (iter.hasNext()) {
-            if (iter.next() == val) {
-                return rank;
+            int _val = iter.next();
+            if (_val >= val) {
+                break;
             }
             ++rank;
         }
-        return -1;
+        return rank;
     }
 
     void test_insert() {
@@ -72,8 +70,14 @@ public class Test {
     void test_kth() {
         for (int i = 0; i < QUERY_TIME; ++i) {
             int size = list.size();
-            int rank = random.nextInt(size * 3) - size;
-            if (list.get(rank - 1) != bst.kth(rank)) {
+            int rank = random.nextInt(size * 3 + 1) - size;
+            int val;
+            if (rank >= 1 && rank <= list.size()) {
+                val = list.get(rank - 1);
+            } else {
+                val = -1;
+            }
+            if (bst.kth(rank) != val) {
                 throw new Error("kth()的实现有问题！");
             }
         }
@@ -84,6 +88,40 @@ public class Test {
             int val = random.nextInt(UPPER_BOUND);
             if (bst.contains(val) != list.contains(val)) {
                 throw new Error("contains()的实现有问题！");
+            }
+        }
+    }
+
+    void test_lower() {
+        for (int i = 0; i < QUERY_TIME; ++i) {
+            int val = random.nextInt(UPPER_BOUND);
+            Iterator<Integer> iter = ((LinkedList<Integer>) list).descendingIterator();
+            int lower = -1;
+            while (iter.hasNext()) {
+                int _val = iter.next();
+                if (_val < val) {
+                    lower = _val;
+                    break;
+                }
+            }
+            if (bst.lower(val) != lower) {
+                throw new Error("lower()的实现有问题！");
+            }
+        }
+    }
+
+    void test_upper() {
+        for (int i = 0; i < QUERY_TIME; ++i) {
+            int val = random.nextInt(UPPER_BOUND);
+            int upper = -1;
+            for (int num : list) {
+                if (num > val) {
+                    upper = num;
+                    break;
+                }
+            }
+            if (bst.upper(val) != upper) {
+                throw new Error("upper()的实现有问题！");
             }
         }
     }
@@ -105,13 +143,13 @@ public class Test {
                 } else if (op == 2) {
                     test_remove();
                 } else if (op == 3) {
-//                    test_rank();
+                    test_rank();
                 } else if (op == 4) {
-//                    test_kth();
+                    test_kth();
                 } else if (op == 5) {
-
+                    test_upper();
                 } else if (op == 6) {
-
+                    test_lower();
                 } else if (op == 7) {
                     test_size();
                 } else if (op == 8) {
