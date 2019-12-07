@@ -157,7 +157,7 @@ public class Test {
                 } else if (op == 7) {
                     test_size();
                 } else if (op == 8) {
-//                    test_contains();
+                    test_contains();
                 } else {
                     throw new Error("op设置有误！");
                 }

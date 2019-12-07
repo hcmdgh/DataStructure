@@ -214,20 +214,27 @@ public class ScapegoatTree implements Tree {
         return -1;
     }
 
-    // 检测容器是否包含某个值
-    public boolean contains(int val) {
-        Node cur = root;
-        while (cur != null) {
-            if (val < cur.val) {
-                cur = cur.leftChild;
-            } else if (val > cur.val) {
-                cur = cur.rightChild;
-            } else if (cur.deleted) {
-                cur = cur.rightChild;
+    private boolean recursiveContains(int val, Node node) {
+        if (node == null) {
+            return false;
+        } else {
+            if (val < node.val) {
+                return recursiveContains(val, node.leftChild);
+            } else if (val > node.val) {
+                return recursiveContains(val, node.rightChild);
             } else {
-                return true;
+                if (!node.deleted) {
+                    return true;
+                } else {
+                    return recursiveContains(val, node.leftChild)
+                            || recursiveContains(val, node.rightChild);
+                }
             }
         }
-        return false;
+    }
+
+    // 检测容器是否包含某个值
+    public boolean contains(int val) {
+        return recursiveContains(val, root);
     }
 }
