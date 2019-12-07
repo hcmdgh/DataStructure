@@ -2,6 +2,7 @@ package BalancedTree;
 
 import BalancedTree.BST.BST;
 import BalancedTree.ScapegoatTree.ScapegoatTree;
+import BalancedTree.Splay.Splay;
 
 import java.util.*;
 
@@ -148,19 +149,19 @@ public class Test {
                 if (op == 1) {
                     test_insert();
                 } else if (op == 2) {
-                    test_remove();
+//                    test_remove();
                 } else if (op == 3) {
-                    test_rank();
+//                    test_rank();
                 } else if (op == 4) {
-                    test_kth();
+//                    test_kth();
                 } else if (op == 5) {
-                    test_upper();
+//                    test_upper();
                 } else if (op == 6) {
-                    test_lower();
+//                    test_lower();
                 } else if (op == 7) {
                     test_size();
                 } else if (op == 8) {
-                    test_contains();
+//                    test_contains();
                 } else {
                     throw new Error("op设置有误！");
                 }
@@ -171,6 +172,6 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        new Test(new BST()).test();
+        new Test(new Splay()).test();
     }
 }
