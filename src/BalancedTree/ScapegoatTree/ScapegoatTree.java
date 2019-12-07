@@ -1,4 +1,6 @@
-package BalancedTree.BST;
+package BalancedTree.ScapegoatTree;
+
+import BalancedTree.Tree;
 
 import java.util.ArrayList;
 import java.util.List;

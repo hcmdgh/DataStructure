@@ -1,4 +1,4 @@
-package BalancedTree.BST;
+package BalancedTree;
 
 public interface Tree {
     // 插入结点

@@ -1,5 +1,7 @@
 package BalancedTree.BST;
 
+import BalancedTree.Tree;
+
 import java.util.Stack;
 
 public class BST implements Tree {

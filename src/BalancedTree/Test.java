@@ -1,4 +1,7 @@
-package BalancedTree.BST;
+package BalancedTree;
+
+import BalancedTree.BST.BST;
+import BalancedTree.ScapegoatTree.ScapegoatTree;
 
 import java.util.*;
 
@@ -168,6 +171,6 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        new Test(new ScapegoatTree()).test();
+        new Test(new BST()).test();
     }
 }
