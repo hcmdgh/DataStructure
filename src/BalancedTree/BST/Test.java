@@ -9,8 +9,14 @@ public class Test {
     static final int QUERY_TIME = 10;  // 查询排名的次数
 
     List<Integer> list;
-    BST bst;
-    Random random = new Random();
+    Tree tree;
+    Random random;
+
+    Test(Tree tree) {
+        this.tree = tree;
+        list = new LinkedList<>();
+        random = new Random();
+    }
 
     void list_insert(int val) {
         ListIterator<Integer> iter = list.listIterator();
@@ -40,19 +46,19 @@ public class Test {
     void test_insert() {
         int val = random.nextInt(UPPER_BOUND);
         list_insert(val);
-        bst.insert(val);
+        tree.insert(val);
         test_size();
     }
 
     void test_size() {
-        if (bst.size() != list.size()) {
+        if (tree.size() != list.size()) {
             throw new Error("两个容器的size不一致！");
         }
     }
 
     void test_remove() {
         Integer val = random.nextInt(UPPER_BOUND);
-        if (list.remove(val) != bst.remove(val)) {
+        if (list.remove(val) != tree.remove(val)) {
             throw new Error("remove()的实现有问题！");
         }
         test_size();
@@ -61,7 +67,7 @@ public class Test {
     void test_rank() {
         for (int i = 0; i < QUERY_TIME; ++i) {
             int val = random.nextInt(UPPER_BOUND);
-            if (list_rank(val) != bst.rank(val)) {
+            if (list_rank(val) != tree.rank(val)) {
                 throw new Error("rank()的实现有问题！");
             }
         }
@@ -77,7 +83,7 @@ public class Test {
             } else {
                 val = -1;
             }
-            if (bst.kth(rank) != val) {
+            if (tree.kth(rank) != val) {
                 throw new Error("kth()的实现有问题！");
             }
         }
@@ -86,7 +92,7 @@ public class Test {
     void test_contains() {
         for (int i = 0; i < QUERY_TIME; ++i) {
             int val = random.nextInt(UPPER_BOUND);
-            if (bst.contains(val) != list.contains(val)) {
+            if (tree.contains(val) != list.contains(val)) {
                 throw new Error("contains()的实现有问题！");
             }
         }
@@ -104,7 +110,7 @@ public class Test {
                     break;
                 }
             }
-            if (bst.lower(val) != lower) {
+            if (tree.lower(val) != lower) {
                 throw new Error("lower()的实现有问题！");
             }
         }
@@ -120,20 +126,18 @@ public class Test {
                     break;
                 }
             }
-            if (bst.upper(val) != upper) {
+            if (tree.upper(val) != upper) {
                 throw new Error("upper()的实现有问题！");
             }
         }
     }
 
     void test() {
-        list = new LinkedList<>();
-        bst = new BST();
         Random random = new Random();
         for (int round = 0; round < ROUND; ++round) {
             list.clear();
-            bst.clear();
-            if (list.size() != bst.size()) {
+            tree.clear();
+            if (list.size() != tree.size()) {
                 throw new Error("clear()的实现有问题！");
             }
             while (list.size() <= MAX_SIZE) {
@@ -153,7 +157,7 @@ public class Test {
                 } else if (op == 7) {
                     test_size();
                 } else if (op == 8) {
-                    test_contains();
+//                    test_contains();
                 } else {
                     throw new Error("op设置有误！");
                 }
@@ -164,6 +168,6 @@ public class Test {
     }
 
     public static void main(String[] args) {
-        new Test().test();
+        new Test(new ScapegoatTree()).test();
     }
 }
