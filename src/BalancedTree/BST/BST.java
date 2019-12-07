@@ -2,8 +2,8 @@ package BalancedTree.BST;
 
 import java.util.Stack;
 
-public class BST {
-    private static class Node {
+public class BST implements Tree {
+    static class Node {
         int val;  // 结点中存储的值
         Node leftChild, rightChild;  // 左孩子和右孩子
         int cnt;  // 该结点所在子树中所有结点的数量
@@ -14,6 +14,7 @@ public class BST {
             cnt = 1;
         }
 
+        // 更新结点的信息，当该结点的子树发生变化后使用
         void update() {
             cnt = 1;
             cnt += leftChild != null ? leftChild.cnt : 0;
@@ -68,7 +69,7 @@ public class BST {
         Node now = root;
         Node father = null;
         boolean isFatherLeft = true;  // 记录now结点是father的左孩子还是右孩子
-        Stack<Node> toUpdate = new Stack<>();
+        Stack<Node> toUpdate = new Stack<>();  // 记录在删除操作后需要更新的结点
         while (now != null) {
             toUpdate.push(now);
             if (val < now.val) {
@@ -129,6 +130,7 @@ public class BST {
                         now.rightChild = cur.rightChild;
                     }
                 }
+                // 删除操作完毕后，更新祖先结点
                 while (!toUpdate.empty()) {
                     toUpdate.pop().update();
                 }
@@ -169,6 +171,7 @@ public class BST {
     }
 
     // 获取排名为k的元素
+    // 返回值为-1表示元素不存在
     public int kth(int rk) {
         Node cur = root;
         while (cur != null) {
@@ -200,10 +203,14 @@ public class BST {
         return false;
     }
 
+    // 返回val的前驱
+    // val的前驱定义为小于val且最大的数
     public int lower(int val) {
         return kth(rank(val) - 1);
     }
 
+    // 返回val的后继
+    // val的后继定义为大于val且最小的数
     public int upper(int val) {
         return kth(rank(val + 1));
     }
